@@ -100,10 +100,13 @@ function App() {
       console.log("Generating code for prompt:", prompt);
       setIsLoading(true);
 
-      const response = await axios.post("http://54.208.193.17:8000/run-agent", {
-        prompt: prompt,
-        username: username,
-      });
+      const response = await axios.post(
+        "https://54.208.193.17:8000/run-agent",
+        {
+          prompt: prompt,
+          username: username,
+        }
+      );
 
       setIsLoading(false);
       setPrompt("");
