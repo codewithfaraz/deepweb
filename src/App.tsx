@@ -85,44 +85,49 @@ function App() {
     // }
   };
   const handlePromptSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    try {
+      e.preventDefault();
 
-    // Check if prompt exists and is not empty
-    if (!prompt.trim()) {
-      return; // Don't proceed if prompt is empty (though we're already validating in LandingPage)
-    }
-    if (!username.trim()) {
-      return;
-    }
-    console.log("Username:", username);
-    // Log the prompt (for testing/debugging)
-    console.log("Generating code for prompt:", prompt);
-    setIsLoading(true);
+      // Check if prompt exists and is not empty
+      if (!prompt.trim()) {
+        return; // Don't proceed if prompt is empty (though we're already validating in LandingPage)
+      }
+      if (!username.trim()) {
+        return;
+      }
+      console.log("Username:", username);
+      // Log the prompt (for testing/debugging)
+      console.log("Generating code for prompt:", prompt);
+      setIsLoading(true);
 
-    const response = await axios.post("http://54.208.193.17:8000/run-agent", {
-      prompt: prompt,
-      username: username,
-    });
-    setIsLoading(false);
-    setPrompt("");
-    console.log(response.data.message);
-    if (response.data.message.code != "") {
-      console.log(response.data.message.code);
-      setGeneratedCode(response.data.message.code);
-      console.log(generatedCode);
-    }
-    if (response.data.message) {
-      setLlmResponse((prev) => [
-        ...(prev || []),
-        {
-          prompt: prompt,
-          responseFromllm: response.data.message.text_after_code || "",
-        },
-      ]);
-    }
+      const response = await axios.post("http://54.208.193.17:8000/run-agent", {
+        prompt: prompt,
+        username: username,
+      });
 
-    if (!editorActive) {
-      setEditorActive(true);
+      setIsLoading(false);
+      setPrompt("");
+      console.log(response.data.message);
+      if (response.data.message.code != "") {
+        console.log(response.data.message.code);
+        setGeneratedCode(response.data.message.code);
+        console.log(generatedCode);
+      }
+      if (response.data.message) {
+        setLlmResponse((prev) => [
+          ...(prev || []),
+          {
+            prompt: prompt,
+            responseFromllm: response.data.message.text_after_code || "",
+          },
+        ]);
+      }
+
+      if (!editorActive) {
+        setEditorActive(true);
+      }
+    } catch (err) {
+      console.log("@err", err);
     }
   };
 
