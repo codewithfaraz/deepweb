@@ -98,8 +98,7 @@ function App() {
     // Log the prompt (for testing/debugging)
     console.log("Generating code for prompt:", prompt);
     setIsLoading(true);
-    // https://deepweb-agent.onrender.com/run-agent
-    // http://127.0.0.1:8000/run-agent
+
     const response = await axios.post("http://54.208.193.17:8000/run-agent", {
       prompt: prompt,
       username: username,
